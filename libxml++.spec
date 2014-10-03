@@ -1,11 +1,11 @@
 Summary:	C++ interface for working with XML files
 Name:		libxml++
-Version:	2.34.2
-Release:	2
+Version:	2.36.0
+Release:	1
 License:	LGPL
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.34/%{name}-%{version}.tar.xz
-# Source0-md5:	2ec0bf8f0d8d510a3b28c173a8a4b21c
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libxml++/2.36/%{name}-%{version}.tar.xz
+# Source0-md5:	72838890c773f89ec701ba1a57cf0802
 URL:		http://libxmlplusplus.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -23,6 +23,8 @@ libxml++ is a C++ interface for the libxml XML parser library.
 Summary:	Header files for libxml++
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	glibmm-devel
+Requires:	libxml2-devel
 
 %description devel
 Header files for libxml++.
@@ -36,6 +38,8 @@ libxml++ API documentation.
 
 %prep
 %setup -q
+
+%{__sed} -i "s| examples||" Makefile.am
 
 %build
 mm-common-prepare
@@ -53,6 +57,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -j1 install \
 	DESTDIR=$RPM_BUILD_ROOT	\
 	libdocdir=%{_gtkdocdir}/%{name}-%{apiver}
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
